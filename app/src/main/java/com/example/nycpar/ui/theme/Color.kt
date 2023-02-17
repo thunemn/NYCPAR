@@ -8,5 +8,6 @@ val Accent = Color(0xFF6072e7)
 
 val Black = Color(0xFF000000)
 val White = Color(0xFFffffff)
+val Red = Color(0xFFff0000)
 
 val BackgroundDark = Color(0xFF2b2c33)
