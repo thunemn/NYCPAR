@@ -10,10 +10,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 class MainViewModel : ViewModel() {
 
-    var backgroundColor: Color by mutableStateOf(Primary)
-        private set
-
-    fun changeBackgroundColor(color: Color) {
-        backgroundColor = color
-    }
+//    var backgroundColor: Color by mutableStateOf(Primary)
+//        private set
+//
+//    fun changeBackgroundColor(color: Color) {
+//        backgroundColor = color
+//    }
 }

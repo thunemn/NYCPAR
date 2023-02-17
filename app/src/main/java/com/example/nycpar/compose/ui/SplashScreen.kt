@@ -36,27 +36,24 @@ import kotlinx.coroutines.delay
 @Composable
 fun SplashScreen(
     modifier: Modifier = Modifier,
-    navigateToHome: () -> Unit,
-    mainViewModel: MainViewModel = viewModel()
+    navigateToHome: () -> Unit
 ) {
 //    val activity = (LocalContext.current as AppCompatActivity)
     val context = LocalContext.current
 
-//    val backgroundColors = remember { mutableStateOf(Primary) }
-    
     LaunchedEffect(context) {
         delay(2000L)
 //        mainViewModel.changeBackgroundColor(Red)
 //        delay(2000L)
 //        mainViewModel.changeBackgroundColor(White)
 //        delay(2000L)
-        navigateToHome
+        navigateToHome()
     }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(mainViewModel.backgroundColor),
+            .background(Primary),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
