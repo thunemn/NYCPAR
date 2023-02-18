@@ -1,4 +1,21 @@
 todo
 --------
+add favorite impl
 start home screen
 make sure it rotates
+
+two categories
+plus favorites
+	add favorites to top app bar 
+details screen opens for each area
+change drawer color based on theme
+	or test it
+
+future
+--------
+share
+more categories
+	beaches - wouldnt demonstrate client-server requirement
+go to last screen
+add settings
+some way to monetize the app

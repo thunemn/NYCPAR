@@ -1,5 +1,6 @@
 package com.example.nycpar.compose.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,6 +19,7 @@ import androidx.compose.ui.unit.sp
 import com.example.nycpar.R
 import com.example.nycpar.ui.theme.Accent
 import com.example.nycpar.ui.theme.PatuaOneFontFamily
+import com.example.nycpar.ui.theme.PrimaryDark
 
 @Composable
 fun DrawerContent(
@@ -26,6 +28,8 @@ fun DrawerContent(
 ) {
     with(prepareDrawerItems()) list@ {
         Column(modifier = Modifier
+            .fillMaxSize()
+            .background(PrimaryDark)
             .padding(vertical = 24.dp)) box@ {
             for(item in this@list) {
                 Row(
