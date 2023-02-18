@@ -1,5 +1,6 @@
 package com.example.nycpar.compose.ui
 
+import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -33,7 +34,9 @@ fun SplashScreen(
     navigateToHome: () -> Unit,
     viewModel: MainViewModel = viewModel()
 ) {
+    val activity = (LocalContext.current as? Activity)
     viewModel.updateCurrentScreen(Screens.SPLASH)
+
     StatusBar()
 
     val context = LocalContext.current

@@ -14,6 +14,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.nycpar.R
@@ -36,7 +37,7 @@ fun DrawerContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
-                            itemClick(item.label)
+                            itemClick(item.label.toLowerCase())
                         }
                         .padding(horizontal = 24.dp, vertical = 10.dp)
                 ) {

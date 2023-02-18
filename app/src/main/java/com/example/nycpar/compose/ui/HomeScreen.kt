@@ -1,6 +1,7 @@
 package com.example.nycpar.compose.ui
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,6 +28,8 @@ import com.example.nycpar.ui.theme.PrimaryDark
 import com.example.nycpar.viewmodels.MainViewModel
 import kotlinx.coroutines.launch
 
+const val TAG = "TAG"
+
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
@@ -42,6 +45,7 @@ fun HomeScreen(
     val navController = rememberNavController()
     val showTopBar = when (currentRoute(navController = navController)) {
         "trails" -> true
+        "favorite" -> true
         else -> false
     }
 
@@ -64,11 +68,13 @@ fun HomeScreen(
             if(showTopBar) {
                 DrawerContent(
                     itemClick = { nextScreen ->
+                        Log.d(TAG, nextScreen)
                         //only change screen if not on current screen
                         (currentScreen != nextScreen).let {
                             navController.navigate(nextScreen) {
-                                popUpTo(navController.graph.startDestinationId)
+                                popUpTo("trails")
                                 launchSingleTop = true
+                                restoreState = true
                             }
                         }
 

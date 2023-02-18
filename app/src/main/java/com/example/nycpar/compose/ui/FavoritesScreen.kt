@@ -25,11 +25,11 @@ import kotlin.math.log
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun TrailsScreen(
+fun FavoritesScreen(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel = viewModel()
 ) {
-    viewModel.updateCurrentScreen(Screens.TRAILS)
+    viewModel.updateCurrentScreen(Screens.FAVORITES)
     val route = currentRoute(navController = rememberNavController())
     Log.d(TAG, "route: ${route ?: "null"}")
     Log.d(TAG, "screen: ${viewModel.currentScreen.screen}")
@@ -38,6 +38,6 @@ fun TrailsScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Cyan)
+            .background(Color.Magenta)
     )
 }
