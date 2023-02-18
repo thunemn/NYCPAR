@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.nycpar.compose.ui.HomeScreen
+import com.example.nycpar.compose.ui.TrailsScreen
 import com.example.nycpar.compose.ui.SplashScreen
 import com.example.nycpar.viewmodels.MainViewModel
 

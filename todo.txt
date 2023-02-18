@@ -1,3 +1,4 @@
 todo
 --------
 start home screen
+make sure it rotates

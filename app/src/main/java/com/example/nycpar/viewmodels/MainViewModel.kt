@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
+import com.example.nycpar.models.Screens
 import com.example.nycpar.ui.theme.Primary
 import kotlinx.coroutines.flow.MutableStateFlow
 
@@ -16,4 +17,10 @@ class MainViewModel : ViewModel() {
 //    fun changeBackgroundColor(color: Color) {
 //        backgroundColor = color
 //    }
+    var currentScreen: Screens by mutableStateOf(Screens.TRAILS)
+        private set
+
+    fun updateCurrentScreen(screen: Screens) {
+        currentScreen = screen
+    }
 }
