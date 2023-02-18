@@ -17,7 +17,7 @@ class MainViewModel : ViewModel() {
 //    fun changeBackgroundColor(color: Color) {
 //        backgroundColor = color
 //    }
-    var currentScreen: Screens by mutableStateOf(Screens.TRAILS)
+    var currentScreen: Screens by mutableStateOf(Screens.SPLASH)
         private set
 
     fun updateCurrentScreen(screen: Screens) {

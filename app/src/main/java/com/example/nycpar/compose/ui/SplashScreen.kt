@@ -14,6 +14,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.ImageLoader
 import coil.compose.rememberAsyncImagePainter
 import coil.decode.GifDecoder
@@ -21,17 +22,20 @@ import coil.decode.ImageDecoderDecoder
 import coil.request.ImageRequest
 import com.example.nycpar.R
 import com.example.nycpar.compose.ui.components.StatusBar
+import com.example.nycpar.models.Screens
 import com.example.nycpar.ui.theme.*
+import com.example.nycpar.viewmodels.MainViewModel
 import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(
     modifier: Modifier = Modifier,
-    navigateToHome: () -> Unit
+    navigateToHome: () -> Unit,
+    viewModel: MainViewModel = viewModel()
 ) {
+    viewModel.updateCurrentScreen(Screens.SPLASH)
     StatusBar()
 
-//    val activity = (LocalContext.current as AppCompatActivity)
     val context = LocalContext.current
 
     LaunchedEffect(context) {

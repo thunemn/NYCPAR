@@ -34,41 +34,11 @@ fun TrailsScreen(
 
     val currentScreen = viewModel.currentScreen.screen
 
-    Scaffold(
+    //show only trail screen related data - custom list
+    Box(
         modifier = Modifier
-            .fillMaxWidth()
-            .background(Primary),
-        scaffoldState = scaffoldState,
-        topBar = {
-            NYCTopAppBar(
-                currentScreen,
-                scaffoldState,
-                onFavoriteClick = {
+            .fillMaxSize()
+            .background(Color.Cyan)
+    )
 
-            })
-        },
-        drawerContent = {
-            DrawerContent(
-                itemClick = { nextScreen ->
-                    //only change screen if not on current screen
-                    (currentScreen != nextScreen).let {
-                        when(nextScreen) {
-                            Screens.TRAILS.screen -> navigateToScreen(Screens.TRAILS)
-                            Screens.FAVORITES.screen -> navigateToScreen(Screens.FAVORITES)
-                        }
-                    }
-                    scope.launch {
-                        scaffoldState.drawerState.close()
-                    }
-                }
-            )
-        }
-    ) {
-        //show only trail screen related data - custom list
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Cyan)
-        )
-    }
 }

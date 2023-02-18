@@ -14,9 +14,10 @@ import com.example.nycpar.viewmodels.MainViewModel
 @Composable
 fun NavigationHost(
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController(),
+    navController: NavHostController,
+    mainViewModel: MainViewModel = viewModel(),
     startDestination: String = "splash",
-    mainViewModel: MainViewModel = viewModel()) {
+) {
 
     NavHost(
         modifier = modifier,
