@@ -6,5 +6,6 @@
     <string name="menu">Menu</string>
     <string name="trails">Trails</string>
     <string name="favorite">Favorite</string>
+    <string name="details">Details</string>
 
 </resources>

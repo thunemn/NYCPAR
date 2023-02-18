@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.nycpar.compose.ui.DetailsScreen
 import com.example.nycpar.compose.ui.FavoritesScreen
 import com.example.nycpar.compose.ui.TrailsScreen
 import com.example.nycpar.compose.ui.SplashScreen
@@ -43,12 +44,9 @@ fun NavigationHost(
             )
         }
         composable("details") {
-//            DetailsScreen(
-//                navigateToScreen = {screen ->
-//
-//                },
-//                viewModel = mainViewModel
-//            )
+            DetailsScreen(
+                viewModel = mainViewModel
+            )
         }
     }
 }
