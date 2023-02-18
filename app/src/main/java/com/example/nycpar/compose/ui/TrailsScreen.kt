@@ -48,6 +48,8 @@ fun TrailsScreen(
             fontSize = dimensionResource(id = R.dimen.splash_name_textSize).value.sp,
             fontFamily = PatuaOneFontFamily,
         )
+        //show loading indicator or error snackbar
+        //success shows list of parks
         when(viewModel.state.collectAsState().value) {
             is State.Loading -> Column(
                     modifier = Modifier.fillMaxSize(),

@@ -44,11 +44,13 @@ fun NYCTopAppBar(
             )
         },
         actions = {
-            IconButton(
-                onClick = {
-                    onFavoriteClick(0)
-                }) {
-                Icon(Icons.Default.FavoriteBorder, stringResource(id = R.string.favorite))
+            if(currentScreen == "details") {
+                IconButton(
+                    onClick = {
+                        onFavoriteClick(0)
+                    }) {
+                    Icon(Icons.Default.FavoriteBorder, stringResource(id = R.string.favorite))
+                }
             }
         }
     )
