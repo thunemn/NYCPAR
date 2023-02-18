@@ -30,9 +30,6 @@ fun FavoritesScreen(
     viewModel: MainViewModel = viewModel()
 ) {
     viewModel.updateCurrentScreen(Screens.FAVORITES)
-    val route = currentRoute(navController = rememberNavController())
-    Log.d(TAG, "route: ${route ?: "null"}")
-    Log.d(TAG, "screen: ${viewModel.currentScreen.screen}")
 
     //show only trail screen related data - custom list
     Box(

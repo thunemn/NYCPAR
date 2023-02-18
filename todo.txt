@@ -1,7 +1,6 @@
 todo
 --------
 add favorite impl
-start home screen
 make sure it rotates
 
 two categories
