@@ -24,6 +24,7 @@ import com.example.nycpar.models.Screens
 import com.example.nycpar.ui.theme.Primary
 import com.example.nycpar.ui.theme.PrimaryDark
 import com.example.nycpar.viewmodels.MainViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 const val TAG = "TAG"
@@ -38,7 +39,7 @@ fun HomeScreen(
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val scope = rememberCoroutineScope()
 
-    val currentScreen = viewModel.currentScreen.screen
+    val currentScreen: String = viewModel.currentScreen.collectAsState().value.screen
 
     val navController = rememberNavController()
     val showTopBar = when (currentRoute(navController = navController)) {
@@ -49,6 +50,21 @@ fun HomeScreen(
 
     LaunchedEffect(context) {
         viewModel.getParks()
+        viewModel.isSnackBarShowing.collect {
+            if(it) {
+                scope.launch {
+                    val snackbarResult = scaffoldState.snackbarHostState.showSnackbar(
+                        message = "Error loading park data.",
+                        actionLabel = "Try again",
+
+                    )
+                    when(snackbarResult) {
+                        SnackbarResult.ActionPerformed -> viewModel.getParks()
+                        SnackbarResult.Dismissed -> Log.d(TAG, "Snackbar dismissed")
+                    }
+                }
+            }
+        }
     }
 
     StatusBar()

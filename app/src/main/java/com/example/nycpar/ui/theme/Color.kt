@@ -11,3 +11,4 @@ val White = Color(0xFFffffff)
 val Red = Color(0xFFff0000)
 
 val BackgroundDark = Color(0xFF2b2c33)
+val BackgroundLight = Color(0xFFe0ffdb)
