@@ -32,4 +32,8 @@ open class TrailResponseItem : RealmObject() {
             field = "$trailName/$parkName"
         }
     var isFavorite = false
+
+    override fun equals(other: Any?): Boolean {
+        return false
+    }
 }

@@ -97,6 +97,15 @@ class MainViewModel : ViewModel() {
                 _trails.value?.find { it.primaryKey == trailItem.primaryKey }?.apply {
                     isFavorite = true
                 }
+
+                //force MutableStateFlow to emit change
+                _trails.update {
+                    _trails.value?.toMutableList()?.apply {
+                        remove(trailItem)
+                        add(trailItem)
+                    }
+                }
+
                 true
             }
         }
@@ -112,6 +121,15 @@ class MainViewModel : ViewModel() {
                 _trails.value?.find { it.primaryKey == trailItem.primaryKey }?.apply {
                     isFavorite = false
                 }
+
+                //force MutableStateFlow to emit change
+                _trails.update {
+                    _trails.value?.toMutableList()?.apply {
+                        remove(trailItem)
+                        add(trailItem)
+                    }
+                }
+
                 true
             }
         }
