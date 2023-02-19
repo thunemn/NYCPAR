@@ -3,8 +3,10 @@ todo
 start ui for trails
 	then do details
 	then add favorites
+		same ui as for trails
 	then do favorite impl
 filter?
+make strings all constants
 
 future
 --------

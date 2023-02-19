@@ -7,4 +7,16 @@
 
     <dimen name="drawer_textSize">20sp</dimen>
 
+    <dimen name="trail_item_height">60dp</dimen>
+    <dimen name="trail_item_padding">6dp</dimen>
+    <dimen name="trail_item_vertical_padding">8dp</dimen>
+    <dimen name="trail_item_horiz_padding">16dp</dimen>
+    <dimen name="trail_item_elevation">16dp</dimen>
+    <dimen name="trail_item_corners">6dp</dimen>
+    <dimen name="trail_item_text_padding">4dp</dimen>
+    <dimen name="trail_item_icon_padding">8dp</dimen>
+    <dimen name="progress_spinner_size">64dp</dimen>
+    <dimen name="progress_spinner_width">4dp</dimen>
+
+
 </resources>

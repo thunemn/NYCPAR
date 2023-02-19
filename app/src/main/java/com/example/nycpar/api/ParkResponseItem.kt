@@ -11,6 +11,8 @@ data class ParkResponseItem(
     val parkClass: String?,
     @SerializedName("surface")
     val surface: String?,
+    @SerializedName("gen_topog")
+    val topog: String?,
     @SerializedName("difficulty")
     val difficulty: String?,
     @SerializedName("date_collected")

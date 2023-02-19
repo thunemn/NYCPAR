@@ -25,6 +25,20 @@ val PatuaOneFontFamily = FontFamily(
 val Typography = Typography(
     defaultFontFamily = LatoFontFamily,
 
+    body1 = TextStyle(
+        fontFamily = LatoFontFamily,
+        fontWeight = FontWeight.Bold,
+        fontSize = 18.sp
+    ),
+
+    body2 = TextStyle(
+        fontFamily = LatoFontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp
+    ),
+
+
+
     /* Other default text styles to override
     button = TextStyle(
         fontFamily = FontFamily.Default,

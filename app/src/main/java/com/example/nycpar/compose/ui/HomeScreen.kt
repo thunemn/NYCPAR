@@ -1,16 +1,11 @@
 package com.example.nycpar.compose.ui
 
-import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -20,11 +15,8 @@ import com.example.nycpar.compose.NavigationHost
 import com.example.nycpar.compose.ui.components.DrawerContent
 import com.example.nycpar.compose.ui.components.NYCTopAppBar
 import com.example.nycpar.compose.ui.components.StatusBar
-import com.example.nycpar.models.Screens
 import com.example.nycpar.ui.theme.Primary
-import com.example.nycpar.ui.theme.PrimaryDark
 import com.example.nycpar.viewmodels.MainViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 const val TAG = "TAG"
@@ -49,7 +41,7 @@ fun HomeScreen(
     }
 
     LaunchedEffect(context) {
-        viewModel.getParks()
+        viewModel.getTrails()
         viewModel.isSnackBarShowing.collect {
             if(it) {
                 scope.launch {
@@ -59,7 +51,7 @@ fun HomeScreen(
 
                     )
                     when(snackbarResult) {
-                        SnackbarResult.ActionPerformed -> viewModel.getParks()
+                        SnackbarResult.ActionPerformed -> viewModel.getTrails()
                         SnackbarResult.Dismissed -> Log.d(TAG, "Snackbar dismissed")
                     }
                 }

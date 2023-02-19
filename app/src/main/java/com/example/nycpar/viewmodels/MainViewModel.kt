@@ -1,10 +1,6 @@
 package com.example.nycpar.viewmodels
 
 import android.util.Log
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nycpar.api.ApiHelper
@@ -13,7 +9,6 @@ import com.example.nycpar.api.ParkResponseItem
 import com.example.nycpar.compose.ui.TAG
 import com.example.nycpar.models.Screens
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -46,14 +41,14 @@ class MainViewModel : ViewModel() {
         _isSnackBarShowing.value = false
     }
 
-    fun getParks() {
-        Log.d(TAG, "getParks()")
+    fun getTrails() {
+        Log.d(TAG, "getTrails()")
         val parksApi = ApiHelper.getInstance().create(ApiInterface::class.java)
         viewModelScope.launch {
             _state.value = State.Loading
             val response = parksApi.getParks()
             Log.d(TAG, "response code: ${response.code()}")
-            withContext(Dispatchers.Main) {
+            withContext(Dispatchers.Default) {
                 try {
                     if(response.isSuccessful) {
                         Log.d(TAG, "success!")
@@ -73,6 +68,14 @@ class MainViewModel : ViewModel() {
                 }
             }
         }
+    }
+
+    fun addTrailToFavorites(trailName: String) {
+
+    }
+
+    fun isTrailFavorite(trailName: String): Boolean {
+        return false
     }
 }
 
