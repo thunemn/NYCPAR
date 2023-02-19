@@ -1,19 +1,22 @@
 package com.example.nycpar.viewmodels
 
 import android.util.Log
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nycpar.api.ApiHelper
 import com.example.nycpar.api.ApiInterface
-import com.example.nycpar.api.ParkResponseItem
+import com.example.nycpar.api.TrailResponseItem
 import com.example.nycpar.compose.ui.TAG
 import com.example.nycpar.models.Screens
-import com.example.nycpar.models.Trail
 import io.realm.Realm
-import io.realm.kotlin.createObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
@@ -34,7 +37,7 @@ class MainViewModel : ViewModel() {
     private val _state = MutableStateFlow<State>(State.Loading)
     val state = _state.asStateFlow()
 
-    private val _trails = MutableStateFlow<List<ParkResponseItem>?>(listOf())
+    private val _trails = MutableStateFlow<List<TrailResponseItem>?>(listOf())
     val trails = _trails.asStateFlow()
 
     private val _isSnackBarShowing = MutableStateFlow(false)
@@ -61,8 +64,14 @@ class MainViewModel : ViewModel() {
                         Log.d(TAG, "success!")
                         _state.value = State.Success
 
-                        val allTrails = response.body()
-                        _trails.value = allTrails?.distinctBy { it.trailName }
+                        //set primary key
+                        val allTrails = response.body()?.apply {
+                            forEach { item ->
+                                item.primaryKey = ""
+                            }
+                        }
+
+                        _trails.value = allTrails?.distinctBy { it.primaryKey }
                     }
                     else {
                         Log.d(TAG, "error: ${response.errorBody()}")
@@ -79,18 +88,43 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    fun addTrailToFavorites(trailItem: ParkResponseItem) {
+    fun addTrailToFavorites(trailItem: TrailResponseItem): Boolean {
         viewModelScope.launch {
             realm.executeTransaction { r ->
+                trailItem.isFavorite = true
                 r.copyToRealmOrUpdate(trailItem)
                 Log.d(TAG, "Favorite trail: ${trailItem.parkName}")
+                _trails.value?.find { it.primaryKey == trailItem.primaryKey }?.apply {
+                    isFavorite = true
+                }
+                true
             }
         }
-
+        return false
     }
 
-    fun isTrailFavorite(trailName: String): Boolean {
+    fun removeTrailFromFavorites(trailItem: TrailResponseItem): Boolean {
+        viewModelScope.launch {
+            realm.executeTransaction { r ->
+                trailItem.isFavorite = false
+                realm.where(TrailResponseItem::class.java).equalTo("primaryKey", trailItem.primaryKey)?.findAll()?.deleteAllFromRealm()
+                Log.d(TAG, "Removed trail: ${trailItem.parkName}")
+                _trails.value?.find { it.primaryKey == trailItem.primaryKey }?.apply {
+                    isFavorite = false
+                }
+                true
+            }
+        }
         return false
+    }
+
+    fun getFavoriteTrails(): List<TrailResponseItem> {
+        return realm.where(TrailResponseItem::class.java).findAll()
+    }
+
+    fun isTrailFavorite(primaryKey: String): Boolean {
+        val trail: TrailResponseItem? = realm.where(TrailResponseItem::class.java).equalTo("primaryKey", primaryKey).findFirst()
+        return trail?.isFavorite ?: false
     }
 }
 

@@ -11,13 +11,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
@@ -27,19 +26,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.rememberNavController
 import com.example.nycpar.R
-import com.example.nycpar.api.ParkResponseItem
-import com.example.nycpar.compose.ui.components.DrawerContent
-import com.example.nycpar.compose.ui.components.NYCTopAppBar
-import com.example.nycpar.compose.ui.components.StatusBar
+import com.example.nycpar.api.TrailResponseItem
 import com.example.nycpar.models.Screens
 import com.example.nycpar.ui.theme.*
 import com.example.nycpar.viewmodels.MainViewModel
 import com.example.nycpar.viewmodels.State
 import com.google.gson.Gson
-import kotlinx.coroutines.launch
-import kotlin.math.log
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -50,7 +43,15 @@ fun TrailsScreen(
 ) {
     viewModel.updateCurrentScreen(Screens.TRAILS)
 
-    val trails: List<ParkResponseItem>? = viewModel.trails.collectAsState().value
+    val trails: List<TrailResponseItem>? = viewModel.trails.collectAsState().value
+
+    val context = LocalContext.current
+
+    LaunchedEffect(context) {
+        viewModel.trails.collect {
+
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -94,7 +95,7 @@ fun TrailsScreen(
 
 @Composable
 fun showTrailsList(
-    trails: List<ParkResponseItem>,
+    trails: List<TrailResponseItem>,
     navigateToDetails: (String) -> Unit,
     viewModel: MainViewModel = viewModel()
 ) {
@@ -114,6 +115,9 @@ fun showTrailsList(
 
         items(validItems) { trail ->
             trail.trailName?.let { trailName ->
+
+                val isFavorite = if(trail.primaryKey != null) viewModel.isTrailFavorite(trail.primaryKey!!) else false
+
                 Surface(
                     elevation = dimensionResource(id = R.dimen.trail_item_elevation).value.dp,
                     modifier = Modifier
@@ -159,13 +163,32 @@ fun showTrailsList(
                         ) {
                             //favorite icon
                             Icon(
-                                imageVector = Icons.Default.FavoriteBorder,
+                                imageVector = if(isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                                 contentDescription = stringResource(id = R.string.favorite),
                                 modifier = Modifier
                                     .padding(horizontal = dimensionResource(id = R.dimen.trail_item_icon_padding).value.dp)
                                     .clickable(onClick = {
-                                        viewModel.addTrailToFavorites(trail)
-                                        Toast.makeText(context, "$trailName favorite clicked", Toast.LENGTH_SHORT).show()
+                                        if (isFavorite) {
+                                            viewModel.removeTrailFromFavorites(trail)
+                                            Toast
+                                                .makeText(
+                                                    context,
+                                                    "$trailName favorite removed",
+                                                    Toast.LENGTH_SHORT
+                                                )
+                                                .show()
+                                        } else {
+                                            //toggle favorite icon
+                                            viewModel.addTrailToFavorites(trail)
+                                            Toast
+                                                .makeText(
+                                                    context,
+                                                    "$trailName favorite added",
+                                                    Toast.LENGTH_SHORT
+                                                )
+                                                .show()
+                                        }
+
                                     })
                             )
                         }
@@ -180,7 +203,7 @@ fun showTrailsList(
 @Composable
 fun showList() {
     val parkJson = "{\"park_name\":\"Bronx Park\",\"width_ft\":\"2 feet to less than 4 feet\",\"class\":\"Class III : Developed/Improved\",\"surface\":\"Dirt\",\"gen_topog\":\"Level\",\"difficulty\":\"1: flat and smooth\",\"date_collected\":\"2023-02-14T00:00:00\",\"trail_name\":\"Blue Trail\",\"parkid\":\"X002\",\"trailmarkersinstalled\":\"No\"}"
-    val park = Gson().fromJson(parkJson, ParkResponseItem::class.java)
+    val park = Gson().fromJson(parkJson, TrailResponseItem::class.java)
     val parks = listOf(park, park)
 
     showTrailsList(trails = parks, navigateToDetails = {

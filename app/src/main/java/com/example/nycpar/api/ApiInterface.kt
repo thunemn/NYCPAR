@@ -5,5 +5,5 @@ import retrofit2.http.GET
 
 interface ApiInterface {
     @GET(ApiHelper.parksUrl)
-    suspend fun getParks(): Response<List<ParkResponseItem>>
+    suspend fun getParks(): Response<List<TrailResponseItem>>
 }

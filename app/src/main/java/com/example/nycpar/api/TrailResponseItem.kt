@@ -4,8 +4,7 @@ import com.google.gson.annotations.SerializedName
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 
-open class ParkResponseItem() : RealmObject() {
-    @PrimaryKey
+open class TrailResponseItem : RealmObject() {
     @SerializedName("park_name")
     var parkName: String? = null
     @SerializedName("width_ft")
@@ -26,4 +25,11 @@ open class ParkResponseItem() : RealmObject() {
     var parkId: String? = null
     @SerializedName("trailmarkersinstalled")
     var trailMarkersInstalled: String? = null
+
+    @PrimaryKey
+    var primaryKey: String? = null
+        set(unused) {
+            field = "$trailName/$parkName"
+        }
+    var isFavorite = false
 }
