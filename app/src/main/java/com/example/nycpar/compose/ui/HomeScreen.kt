@@ -17,6 +17,8 @@ import com.example.nycpar.compose.ui.components.NYCTopAppBar
 import com.example.nycpar.compose.ui.components.StatusBar
 import com.example.nycpar.ui.theme.Primary
 import com.example.nycpar.viewmodels.MainViewModel
+import io.realm.Realm
+import io.realm.RealmConfiguration
 import kotlinx.coroutines.launch
 
 const val TAG = "TAG"
@@ -39,6 +41,14 @@ fun HomeScreen(
         "favorite" -> true
         else -> false
     }
+
+    Realm.init(context)
+    Realm.setDefaultConfiguration(
+        RealmConfiguration.Builder()
+            .allowWritesOnUiThread(true)
+            .deleteRealmIfMigrationNeeded()
+            .build()
+    )
 
     LaunchedEffect(context) {
         viewModel.getTrails()

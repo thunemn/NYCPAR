@@ -8,6 +8,9 @@ import com.example.nycpar.api.ApiInterface
 import com.example.nycpar.api.ParkResponseItem
 import com.example.nycpar.compose.ui.TAG
 import com.example.nycpar.models.Screens
+import com.example.nycpar.models.Trail
+import io.realm.Realm
+import io.realm.kotlin.createObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,6 +19,10 @@ import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 
 class MainViewModel : ViewModel() {
+
+    private val realm: Realm by lazy {
+        Realm.getDefaultInstance()
+    }
 
     private val _currentScreen = MutableStateFlow(Screens.SPLASH)
     val currentScreen = _currentScreen.asStateFlow()
@@ -53,7 +60,9 @@ class MainViewModel : ViewModel() {
                     if(response.isSuccessful) {
                         Log.d(TAG, "success!")
                         _state.value = State.Success
-                        _trails.value = response.body()
+
+                        val allTrails = response.body()
+                        _trails.value = allTrails?.distinctBy { it.trailName }
                     }
                     else {
                         Log.d(TAG, "error: ${response.errorBody()}")
@@ -70,7 +79,13 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    fun addTrailToFavorites(trailName: String) {
+    fun addTrailToFavorites(trailItem: ParkResponseItem) {
+        viewModelScope.launch {
+            realm.executeTransaction { r ->
+                r.copyToRealmOrUpdate(trailItem)
+                Log.d(TAG, "Favorite trail: ${trailItem.parkName}")
+            }
+        }
 
     }
 

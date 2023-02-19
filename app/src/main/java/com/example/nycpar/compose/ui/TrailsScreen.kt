@@ -80,7 +80,10 @@ fun TrailsScreen(
                 }
 
             is State.Success -> trails?.let {
-                showTrailsList(trails = it, navigateToDetails)
+                showTrailsList(
+                    trails = it,
+                    navigateToDetails,
+                    viewModel)
             }
             is State.Error -> {
                 viewModel.showSnackBar()
@@ -93,6 +96,7 @@ fun TrailsScreen(
 fun showTrailsList(
     trails: List<ParkResponseItem>,
     navigateToDetails: (String) -> Unit,
+    viewModel: MainViewModel = viewModel()
 ) {
     val context = LocalContext.current
 
@@ -153,12 +157,14 @@ fun showTrailsList(
                                 .weight(1f),
                             verticalArrangement = Arrangement.Center
                         ) {
+                            //favorite icon
                             Icon(
                                 imageVector = Icons.Default.FavoriteBorder,
                                 contentDescription = stringResource(id = R.string.favorite),
                                 modifier = Modifier
                                     .padding(horizontal = dimensionResource(id = R.dimen.trail_item_icon_padding).value.dp)
                                     .clickable(onClick = {
+                                        viewModel.addTrailToFavorites(trail)
                                         Toast.makeText(context, "$trailName favorite clicked", Toast.LENGTH_SHORT).show()
                                     })
                             )
@@ -170,14 +176,14 @@ fun showTrailsList(
     }
 }
 
-//@Preview
+@Preview
 @Composable
 fun showList() {
     val parkJson = "{\"park_name\":\"Bronx Park\",\"width_ft\":\"2 feet to less than 4 feet\",\"class\":\"Class III : Developed/Improved\",\"surface\":\"Dirt\",\"gen_topog\":\"Level\",\"difficulty\":\"1: flat and smooth\",\"date_collected\":\"2023-02-14T00:00:00\",\"trail_name\":\"Blue Trail\",\"parkid\":\"X002\",\"trailmarkersinstalled\":\"No\"}"
     val park = Gson().fromJson(parkJson, ParkResponseItem::class.java)
     val parks = listOf(park, park)
 
-//    showTrailsList(trails = parks, navigateToDetails = {
-//        Log.d(TAG, "park clicked: $it")
-//    })
+    showTrailsList(trails = parks, navigateToDetails = {
+        Log.d(TAG, "park clicked: $it")
+    })
 }

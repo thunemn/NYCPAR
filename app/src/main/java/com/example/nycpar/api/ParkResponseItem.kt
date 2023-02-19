@@ -1,26 +1,29 @@
 package com.example.nycpar.api
 
 import com.google.gson.annotations.SerializedName
+import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
 
-data class ParkResponseItem(
+open class ParkResponseItem() : RealmObject() {
+    @PrimaryKey
     @SerializedName("park_name")
-    val parkName: String?,
+    var parkName: String? = null
     @SerializedName("width_ft")
-    val widthFT: String?,
+    var widthFT: String? = null
     @SerializedName("class")
-    val parkClass: String?,
+    var parkClass: String? = null
     @SerializedName("surface")
-    val surface: String?,
+    var surface: String? = null
     @SerializedName("gen_topog")
-    val topog: String?,
+    var topog: String? = null
     @SerializedName("difficulty")
-    val difficulty: String?,
+    var difficulty: String? = null
     @SerializedName("date_collected")
-    val dateCollected: String?,
+    var dateCollected: String? = null
     @SerializedName("trail_name")
-    val trailName: String?,
+    var trailName: String? = null
     @SerializedName("parkid")
-    val parkId: String?,
+    var parkId: String? = null
     @SerializedName("trailmarkersinstalled")
-    val trailMarkersInstalled: String?,
-)
+    var trailMarkersInstalled: String? = null
+}
