@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.nycpar.compose.navigation.NavigationConstants
 import com.example.nycpar.compose.ui.*
 import com.example.nycpar.viewmodels.MainViewModel
 
@@ -18,7 +19,7 @@ fun NavigationHost(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     mainViewModel: MainViewModel = viewModel(),
-    startDestination: String = "splash",
+    startDestination: String = NavigationConstants.SPLASH,
 ) {
 
     NavHost(
@@ -26,41 +27,41 @@ fun NavigationHost(
         navController = navController,
         startDestination = startDestination
     ) {
-        composable("splash") {
+        composable(NavigationConstants.SPLASH) {
             SplashScreen(
                 navigateToHome = {
-                    navController.navigate("trails")
+                    navController.navigate(NavigationConstants.TRAILS)
                 }
             )
         }
-        composable("trails") {
+        composable(NavigationConstants.TRAILS) {
             TrailsScreen(
                 navigateToDetails = { parkName ->
-                    navController.navigate("details?parkName=${parkName}")
+                    navController.navigate("${NavigationConstants.DETAILS_NAVIGATE}${parkName}")
                 },
                 viewModel = mainViewModel
             )
         }
-        composable("favorite") {
+        composable(NavigationConstants.FAVORITE) {
             FavoritesScreen(
                 navigateToDetails = { parkName ->
-                    navController.navigate("details?parkName=${parkName}")
+                    navController.navigate("${NavigationConstants.DETAILS_NAVIGATE}${parkName}")
                 },
                 viewModel = mainViewModel
             )
         }
         composable(
-            route = "details?parkName={parkName}",
+            route = NavigationConstants.DETAILS_ROUTE,
             arguments = listOf(
-                navArgument("parkName") {
+                navArgument(NavigationConstants.PARK_NAME) {
                     type = NavType.StringType
                     defaultValue = ""
                 }
             )
         ) { backstackEntry ->
-            Log.d(TAG, "park name = ${backstackEntry.arguments?.getString("parkName")}")
+            Log.d(TAG, "park name = ${backstackEntry.arguments?.getString(NavigationConstants.PARK_NAME)}")
             DetailsScreen(
-                parkName = backstackEntry.arguments?.getString("parkName") ?: "",
+                parkName = backstackEntry.arguments?.getString(NavigationConstants.PARK_NAME) ?: "",
                 viewModel = mainViewModel
             )
         }

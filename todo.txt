@@ -2,8 +2,6 @@ todo
 --------
 then do details			
 filter?
-make strings all constants
-remove toasts
 
 future
 --------

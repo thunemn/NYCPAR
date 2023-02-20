@@ -107,23 +107,9 @@ fun TrailsList(
                                     .clickable(onClick = {
                                         if (isFavorite) {
                                             viewModel.removeTrailFromFavorites(trail)
-                                            Toast
-                                                .makeText(
-                                                    context,
-                                                    "$trailName favorite removed",
-                                                    Toast.LENGTH_SHORT
-                                                )
-                                                .show()
                                         } else {
                                             //toggle favorite icon
                                             viewModel.addTrailToFavorites(trail)
-                                            Toast
-                                                .makeText(
-                                                    context,
-                                                    "$trailName favorite added",
-                                                    Toast.LENGTH_SHORT
-                                                )
-                                                .show()
                                         }
                                     })
                             )
