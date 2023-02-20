@@ -14,10 +14,7 @@ import androidx.compose.material.R
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -51,7 +48,7 @@ fun FavoritesScreen(
 ) {
     viewModel.updateCurrentScreen(Screens.FAVORITES)
 
-    val trails: List<TrailResponseItem> = viewModel.trails.collectAsState().value
+    val trails: List<TrailResponseItem> = viewModel.faves.collectAsState().value
 
     val context = LocalContext.current
 

@@ -44,7 +44,7 @@ fun TrailsScreen(
 ) {
     viewModel.updateCurrentScreen(Screens.TRAILS)
 
-    val trails: List<TrailResponseItem>? = viewModel.trails.collectAsState().value
+    val trails: List<TrailResponseItem> = viewModel.trails.collectAsState().value
 
     Box(
         modifier = Modifier

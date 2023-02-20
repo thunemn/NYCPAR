@@ -52,6 +52,7 @@ fun HomeScreen(
 
     LaunchedEffect(context) {
         viewModel.getTrails()
+        viewModel.loadFavorites()
         viewModel.isSnackBarShowing.collect {
             if(it) {
                 scope.launch {

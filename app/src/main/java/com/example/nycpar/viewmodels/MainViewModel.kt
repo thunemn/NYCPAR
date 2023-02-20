@@ -40,6 +40,9 @@ class MainViewModel : ViewModel() {
     private val _trails = MutableStateFlow<List<TrailResponseItem>>(listOf())
     val trails = _trails.asStateFlow()
 
+    private val _faves = MutableStateFlow<List<TrailResponseItem>>(listOf())
+    val faves = _faves.asStateFlow()
+
     private val _isSnackBarShowing = MutableStateFlow(false)
     val isSnackBarShowing = _isSnackBarShowing.asStateFlow()
 
@@ -112,6 +115,12 @@ class MainViewModel : ViewModel() {
                     }
                 }
 
+                _faves.update {
+                    _faves.value.toMutableList().apply {
+                        add(trailItem)
+                    }
+                }
+
                 true
             }
         }
@@ -119,12 +128,14 @@ class MainViewModel : ViewModel() {
     }
 
     fun removeTrailFromFavorites(trailItem: TrailResponseItem): Boolean {
+        val primaryKey = trailItem.primaryKey
+
         viewModelScope.launch {
             realm.executeTransaction { r ->
                 trailItem.isFavorite = false
                 realm.where(TrailResponseItem::class.java).equalTo("primaryKey", trailItem.primaryKey)?.findAll()?.deleteAllFromRealm()
-                Log.d(TAG, "Removed trail: ${trailItem.parkName}")
-                _trails.value?.find { it.primaryKey == trailItem.primaryKey }?.apply {
+//                Log.d(TAG, "Removed trail: ${trailItem.parkName}")
+                _trails.value.find { it.primaryKey == primaryKey }?.apply {
                     isFavorite = false
                 }
 
@@ -136,10 +147,25 @@ class MainViewModel : ViewModel() {
                     }
                 }
 
+                _faves.update {
+                    _faves.value.toMutableList().apply {
+                        clear()
+                        addAll(getFavoriteTrails())
+                    }
+                }
+
                 true
             }
         }
         return false
+    }
+
+    fun loadFavorites() {
+        _faves.update {
+            _faves.value.toMutableList().apply {
+                addAll(getFavoriteTrails())
+            }
+        }
     }
 
     fun getFavoriteTrails(): List<TrailResponseItem> {
