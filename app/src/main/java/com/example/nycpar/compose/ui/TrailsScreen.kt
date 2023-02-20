@@ -66,7 +66,7 @@ fun TrailsScreen(
                     )
                 }
 
-            is State.Success -> trails?.let {
+            is State.Success -> trails.let {
                 TrailsList(
                     trails = it,
                     navigateToDetails,

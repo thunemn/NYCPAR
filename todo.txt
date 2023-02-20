@@ -1,15 +1,14 @@
 todo
 --------
-start ui for trails
-	then do details
-	then add favorites
-		same ui as for trails
-	then do favorite impl
+then do details			
 filter?
 make strings all constants
+remove toasts
 
 future
 --------
+filter
+search
 share
 more categories
 	beaches - wouldnt demonstrate client-server requirement
@@ -17,3 +16,6 @@ add settings
 some way to monetize the app
 dark mode
 landscape
+
+
+1.7.0-SNAPSHOT

@@ -68,13 +68,14 @@ class MainViewModel : ViewModel() {
                         _state.value = State.Success
 
                         //set primary key
-                        val allTrails = response.body()?.apply {
+                        var allTrails = response.body()?.apply {
                             forEach { item ->
                                 item.trailName?.let {
                                     item.primaryKey = "${item.trailName}/${item.parkName}"
                                 }
                             }
                         }
+                        allTrails = allTrails?.sortedWith(compareBy( {it.trailName}, {it.parkName} ))
 
                         allTrails?.let { all ->
                             _trails.value = all
@@ -134,7 +135,6 @@ class MainViewModel : ViewModel() {
             realm.executeTransaction { r ->
                 trailItem.isFavorite = false
                 realm.where(TrailResponseItem::class.java).equalTo("primaryKey", trailItem.primaryKey)?.findAll()?.deleteAllFromRealm()
-//                Log.d(TAG, "Removed trail: ${trailItem.parkName}")
                 _trails.value.find { it.primaryKey == primaryKey }?.apply {
                     isFavorite = false
                 }
