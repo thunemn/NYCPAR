@@ -51,13 +51,6 @@ fun TrailsScreen(
             .fillMaxSize()
             .background(BackgroundLight)
     ) {
-        Text(
-            text = "${viewModel.trails.collectAsState().value?.size ?: "null"}",
-            color = Color.Black,
-            fontSize = dimensionResource(id = R.dimen.splash_name_textSize).value.sp,
-            fontFamily = PatuaOneFontFamily,
-        )
-
         //show loading indicator or error snackbar
         //success shows list of parks
         when(viewModel.state.collectAsState().value) {

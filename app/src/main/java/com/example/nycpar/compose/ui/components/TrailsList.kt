@@ -49,9 +49,7 @@ fun TrailsList(
         ),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        val validItems = trails.filter { it.trailName?.isNullOrEmpty() == false }
-
-        items(validItems) { trail ->
+        items(trails) { trail ->
             trail.trailName?.let { trailName ->
 
                 val isFavorite = if(trail.primaryKey != null) viewModel.isTrailFavorite(trail.primaryKey!!) else false
@@ -127,7 +125,6 @@ fun TrailsList(
                                                 )
                                                 .show()
                                         }
-
                                     })
                             )
                         }

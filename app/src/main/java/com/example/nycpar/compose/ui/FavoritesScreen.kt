@@ -51,7 +51,7 @@ fun FavoritesScreen(
 ) {
     viewModel.updateCurrentScreen(Screens.FAVORITES)
 
-    val trails: List<TrailResponseItem>? = viewModel.trails.collectAsState().value
+    val trails: List<TrailResponseItem> = viewModel.trails.collectAsState().value
 
     val context = LocalContext.current
 
@@ -60,37 +60,9 @@ fun FavoritesScreen(
             .fillMaxSize()
             .background(BackgroundLight)
     ) {
-        Text(
-            text = "${viewModel.trails.collectAsState().value?.size ?: "null"}",
-            color = Color.Black,
-            fontSize = dimensionResource(id = com.example.nycpar.R.dimen.splash_name_textSize).value.sp,
-            fontFamily = PatuaOneFontFamily,
-        )
-
-        //show loading indicator or error snackbar
-        //success shows list of parks
-        when(viewModel.state.collectAsState().value) {
-            is State.Loading -> Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(size = dimensionResource(id = com.example.nycpar.R.dimen.progress_spinner_size).value.dp),
-                    color = Accent,
-                    strokeWidth = dimensionResource(id = com.example.nycpar.R.dimen.progress_spinner_width).value.dp
-                )
-            }
-
-            is State.Success -> trails?.let {
-                TrailsList(
-                    trails = it,
-                    navigateToDetails,
-                    viewModel)
-            }
-            is State.Error -> {
-                viewModel.showSnackBar()
-            }
-        }
+        TrailsList(
+            trails = trails,
+            navigateToDetails,
+            viewModel)
     }
 }

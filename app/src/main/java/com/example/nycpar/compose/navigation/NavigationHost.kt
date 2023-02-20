@@ -43,6 +43,9 @@ fun NavigationHost(
         }
         composable("favorite") {
             FavoritesScreen(
+                navigateToDetails = { parkName ->
+                    navController.navigate("details?parkName=${parkName}")
+                },
                 viewModel = mainViewModel
             )
         }

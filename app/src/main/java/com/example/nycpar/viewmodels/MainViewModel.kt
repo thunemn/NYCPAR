@@ -37,7 +37,7 @@ class MainViewModel : ViewModel() {
     private val _state = MutableStateFlow<State>(State.Loading)
     val state = _state.asStateFlow()
 
-    private val _trails = MutableStateFlow<List<TrailResponseItem>?>(listOf())
+    private val _trails = MutableStateFlow<List<TrailResponseItem>>(listOf())
     val trails = _trails.asStateFlow()
 
     private val _isSnackBarShowing = MutableStateFlow(false)
@@ -67,11 +67,17 @@ class MainViewModel : ViewModel() {
                         //set primary key
                         val allTrails = response.body()?.apply {
                             forEach { item ->
-                                item.primaryKey = ""
+                                item.trailName?.let {
+                                    item.primaryKey = "${item.trailName}/${item.parkName}"
+                                }
                             }
                         }
 
-                        _trails.value = allTrails?.distinctBy { it.primaryKey }
+                        allTrails?.let { all ->
+                            _trails.value = all
+                                .filter { it.primaryKey != null }
+                                .distinctBy { it.primaryKey }
+                        }
                     }
                     else {
                         Log.d(TAG, "error: ${response.errorBody()}")
@@ -94,13 +100,13 @@ class MainViewModel : ViewModel() {
                 trailItem.isFavorite = true
                 r.copyToRealmOrUpdate(trailItem)
                 Log.d(TAG, "Favorite trail: ${trailItem.parkName}")
-                _trails.value?.find { it.primaryKey == trailItem.primaryKey }?.apply {
+                _trails.value.find { it.primaryKey == trailItem.primaryKey }?.apply {
                     isFavorite = true
                 }
 
                 //force MutableStateFlow to emit change
                 _trails.update {
-                    _trails.value?.toMutableList()?.apply {
+                    _trails.value.toMutableList().apply {
                         remove(trailItem)
                         add(trailItem)
                     }
@@ -124,7 +130,7 @@ class MainViewModel : ViewModel() {
 
                 //force MutableStateFlow to emit change
                 _trails.update {
-                    _trails.value?.toMutableList()?.apply {
+                    _trails.value.toMutableList().apply {
                         remove(trailItem)
                         add(trailItem)
                     }
