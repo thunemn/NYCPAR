@@ -32,7 +32,7 @@ import kotlinx.coroutines.delay
 fun SplashScreen(
     modifier: Modifier = Modifier,
     navigateToHome: () -> Unit,
-    viewModel: MainViewModel = viewModel()
+    viewModel: MainViewModel
 ) {
     val activity = (LocalContext.current as? Activity)
     viewModel.updateCurrentScreen(Screens.SPLASH)

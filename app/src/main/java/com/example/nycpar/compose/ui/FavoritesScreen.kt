@@ -44,14 +44,13 @@ import kotlin.math.log
 fun FavoritesScreen(
     modifier: Modifier = Modifier,
     navigateToDetails: (String) -> Unit,
-    viewModel: MainViewModel = viewModel()
+    viewModel: MainViewModel
 ) {
     viewModel.updateCurrentScreen(Screens.FAVORITES)
 
-    var trails: List<TrailResponseItem> = viewModel.faves.collectAsState().value
-    trails = trails.sortedWith(compareBy( {it.trailName}, {it.parkName} ))
-
-    val context = LocalContext.current
+    val trails: List<TrailResponseItem> = viewModel.faves.collectAsState().value.apply {
+        sortedWith(compareBy({ it.trailName }, { it.parkName }))
+    }
 
     Box(
         modifier = Modifier

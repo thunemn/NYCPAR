@@ -17,7 +17,7 @@ import com.example.nycpar.viewmodels.MainViewModel
 fun NavigationHost(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    mainViewModel: MainViewModel = viewModel(),
+    mainViewModel: MainViewModel,
     startDestination: String = NavigationConstants.SPLASH_ROUTE,
 ) {
 
@@ -30,7 +30,8 @@ fun NavigationHost(
             SplashScreen(
                 navigateToHome = {
                     navController.navigate(NavigationConstants.TRAILS_ROUTE)
-                }
+                },
+                viewModel = mainViewModel
             )
         }
         composable(NavigationConstants.TRAILS_ROUTE) {
@@ -58,9 +59,7 @@ fun NavigationHost(
                 }
             )
         ) { backstackEntry ->
-            Log.d(TAG, "park name = ${backstackEntry.arguments?.getString(NavigationConstants.PRIMARY_KEY)}")
             DetailsScreen(
-                primaryKey = backstackEntry.arguments?.getString(NavigationConstants.PRIMARY_KEY) ?: "",
                 viewModel = mainViewModel
             )
         }

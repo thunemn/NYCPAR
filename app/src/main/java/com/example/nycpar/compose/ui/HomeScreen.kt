@@ -27,7 +27,7 @@ const val TAG = "TAG"
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    viewModel: MainViewModel = viewModel()
+    viewModel: MainViewModel
 ) {
     val context = LocalContext.current
     
@@ -43,20 +43,8 @@ fun HomeScreen(
         NavigationConstants.DETAILS_ROUTE -> true
         else -> false
     }
-    
-    Log.d(TAG, "currentRoute = ${currentRoute(navController = navController)}")
-
-    Realm.init(context)
-    Realm.setDefaultConfiguration(
-        RealmConfiguration.Builder()
-            .allowWritesOnUiThread(true)
-            .deleteRealmIfMigrationNeeded()
-            .build()
-    )
 
     LaunchedEffect(context) {
-        viewModel.getTrails()
-        viewModel.loadFavorites()
         viewModel.isSnackBarShowing.collect {
             if(it) {
                 scope.launch {
@@ -93,7 +81,6 @@ fun HomeScreen(
             if(showTopBar) {
                 DrawerContent(
                     itemClick = { nextScreen ->
-                        Log.d(TAG, nextScreen)
                         //only change screen if not on current screen
                         (currentScreen != nextScreen).let {
                             navController.navigate(nextScreen) {

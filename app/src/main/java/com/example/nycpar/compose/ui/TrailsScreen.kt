@@ -43,7 +43,7 @@ import com.google.gson.Gson
 fun TrailsScreen(
     modifier: Modifier = Modifier,
     navigateToDetails: (String) -> Unit,
-    viewModel: MainViewModel = viewModel()
+    viewModel: MainViewModel
 ) {
     viewModel.updateCurrentScreen(Screens.TRAILS)
 

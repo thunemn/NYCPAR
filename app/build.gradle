@@ -16,6 +16,7 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -75,5 +76,5 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
-//    implementation 'io.realm.kotlin:library-base:1.6.0'
+    implementation("androidx.multidex:multidex:2.0.1")
 }

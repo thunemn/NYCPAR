@@ -34,13 +34,11 @@ import com.example.nycpar.viewmodels.MainViewModel
 @Composable
 fun DetailsScreen(
     modifier: Modifier = Modifier,
-    primaryKey: String,
-    viewModel: MainViewModel = viewModel()
+    viewModel: MainViewModel
 ) {
     viewModel.updateCurrentScreen(Screens.DETAILS)
 
     val trailItem: TrailResponseItem? = viewModel.detailsItem.collectAsState().value
-    Log.d(TAG, "trail details: $trailItem")
 
     val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 

@@ -13,6 +13,7 @@ import com.example.nycpar.api.TrailResponseItem
 import com.example.nycpar.compose.ui.TAG
 import com.example.nycpar.models.Screens
 import io.realm.Realm
+import io.realm.RealmConfiguration
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -53,7 +54,13 @@ class MainViewModel : ViewModel() {
     private val _detailsItem = MutableStateFlow<TrailResponseItem?>(null)
     val detailsItem = _detailsItem.asStateFlow()
 
+    init {
+        getTrails()
+        loadFavorites()
+    }
+
     fun getTrails() {
+        Log.d(TAG, "getTrails()")
         val parksApi = ApiHelper.getInstance().create(ApiInterface::class.java)
         viewModelScope.launch {
             _state.value = State.Loading
@@ -131,7 +138,6 @@ class MainViewModel : ViewModel() {
         viewModelScope.launch {
             realm.executeTransaction { r ->
                 trailItem.isFavorite = false
-//                _detailsItem.value = trailItem
 
                 realm.where(TrailResponseItem::class.java).equalTo("primaryKey", trailItem.primaryKey)?.findAll()?.deleteAllFromRealm()
 
@@ -177,10 +183,6 @@ class MainViewModel : ViewModel() {
     fun isTrailFavorite(primaryKey: String): Boolean {
         val trail: TrailResponseItem? = realm.where(TrailResponseItem::class.java).equalTo("primaryKey", primaryKey).findFirst()
         return trail?.isFavorite ?: false
-    }
-
-    fun getTrailDetails(primaryKey: String): TrailResponseItem? {
-        return realm.where(TrailResponseItem::class.java).equalTo("primaryKey", primaryKey).findFirst()
     }
 
     fun setDetailsItem(item: TrailResponseItem) {
