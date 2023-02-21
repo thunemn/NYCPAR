@@ -33,7 +33,7 @@ open class TrailResponseItem : RealmObject() {
         }
     var isFavorite = false
 
-    override fun equals(other: Any?): Boolean {
-        return false
-    }
+//    override fun equals(other: Any?): Boolean {
+//        return false
+//    }
 }

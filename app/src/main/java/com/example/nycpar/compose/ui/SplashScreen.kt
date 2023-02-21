@@ -34,12 +34,10 @@ fun SplashScreen(
     navigateToHome: () -> Unit,
     viewModel: MainViewModel
 ) {
-    val activity = (LocalContext.current as? Activity)
     viewModel.updateCurrentScreen(Screens.SPLASH)
+    val context = LocalContext.current
 
     StatusBar()
-
-    val context = LocalContext.current
 
     LaunchedEffect(context) {
         delay(1000L)

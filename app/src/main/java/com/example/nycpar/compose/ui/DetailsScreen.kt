@@ -39,9 +39,6 @@ fun DetailsScreen(
     viewModel.updateCurrentScreen(Screens.DETAILS)
 
     val trailItem: TrailResponseItem? = viewModel.detailsItem.collectAsState().value
-    Log.d(TAG, "isFavorite = ${trailItem?.isFavorite}")
-
-    val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 
     Box(
         modifier = Modifier
@@ -135,8 +132,6 @@ fun DetailsScreen(
                     )
                 }
             }
-        } ?: run {
-            //show some error
         }
     }
 }

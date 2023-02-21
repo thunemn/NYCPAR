@@ -46,11 +46,10 @@ fun TrailsScreen(
     viewModel: MainViewModel
 ) {
     viewModel.updateCurrentScreen(Screens.TRAILS)
+    val activity = (LocalContext.current) as Activity
 
     val trails: List<TrailResponseItem> = viewModel.trails.collectAsState().value
 
-    val activity = (LocalContext.current) as Activity
-    
     BackHandler {
         activity.finish()
     }
@@ -86,18 +85,4 @@ fun TrailsScreen(
             }
         }
     }
-}
-
-
-
-@Preview
-@Composable
-fun showList() {
-    val parkJson = "{\"park_name\":\"Bronx Park\",\"width_ft\":\"2 feet to less than 4 feet\",\"class\":\"Class III : Developed/Improved\",\"surface\":\"Dirt\",\"gen_topog\":\"Level\",\"difficulty\":\"1: flat and smooth\",\"date_collected\":\"2023-02-14T00:00:00\",\"trail_name\":\"Blue Trail\",\"parkid\":\"X002\",\"trailmarkersinstalled\":\"No\"}"
-    val park = Gson().fromJson(parkJson, TrailResponseItem::class.java)
-    val parks = listOf(park, park)
-
-    TrailsList(trails = parks, navigateToDetails = {
-        Log.d(TAG, "park clicked: $it")
-    })
 }

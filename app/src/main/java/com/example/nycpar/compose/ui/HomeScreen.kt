@@ -22,7 +22,7 @@ import io.realm.Realm
 import io.realm.RealmConfiguration
 import kotlinx.coroutines.launch
 
-const val TAG = "TAG"
+const val TAG = "LOG_TAG"
 
 @Composable
 fun HomeScreen(

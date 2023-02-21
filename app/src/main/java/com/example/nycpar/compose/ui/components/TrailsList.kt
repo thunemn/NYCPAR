@@ -37,8 +37,6 @@ fun TrailsList(
     navigateToDetails: (String) -> Unit,
     viewModel: MainViewModel = viewModel()
 ) {
-    val context = LocalContext.current
-
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
