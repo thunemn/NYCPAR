@@ -1,8 +1,11 @@
 package com.example.nycpar.compose.ui
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -45,6 +48,12 @@ fun TrailsScreen(
     viewModel.updateCurrentScreen(Screens.TRAILS)
 
     val trails: List<TrailResponseItem> = viewModel.trails.collectAsState().value
+
+    val activity = (LocalContext.current) as Activity
+    
+    BackHandler {
+        activity.finish()
+    }
 
     Box(
         modifier = Modifier
