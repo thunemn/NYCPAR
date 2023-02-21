@@ -39,14 +39,9 @@ fun DetailsScreen(
     viewModel.updateCurrentScreen(Screens.DETAILS)
 
     val trailItem: TrailResponseItem? = viewModel.detailsItem.collectAsState().value
+    Log.d(TAG, "isFavorite = ${trailItem?.isFavorite}")
 
     val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
-
-    DisposableEffect(lifecycleOwner) {
-        onDispose {
-            viewModel.clearDetailsItem()
-        }
-    }
 
     Box(
         modifier = Modifier

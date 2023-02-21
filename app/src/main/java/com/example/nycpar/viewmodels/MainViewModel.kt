@@ -102,10 +102,11 @@ class MainViewModel : ViewModel() {
     }
 
     fun addTrailToFavorites(trailItem: TrailResponseItem): Boolean {
+        val primaryKey = trailItem.primaryKey
+
         viewModelScope.launch {
             realm.executeTransaction { r ->
                 trailItem.isFavorite = true
-                _detailsItem.value = trailItem
                 r.copyToRealmOrUpdate(trailItem)
 
                 _trails.value.find { it.primaryKey == trailItem.primaryKey }?.apply {
@@ -125,6 +126,8 @@ class MainViewModel : ViewModel() {
                         add(trailItem)
                     }
                 }
+
+                _detailsItem.value = trails.value.find { it.primaryKey == primaryKey }
 
                 true
             }
