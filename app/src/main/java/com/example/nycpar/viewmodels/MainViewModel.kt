@@ -50,24 +50,17 @@ class MainViewModel : ViewModel() {
         _isSnackBarShowing.value = true
     }
 
-    fun hideSnackBar() {
-        _isSnackBarShowing.value = false
-    }
-
     private val _detailsItem = MutableStateFlow<TrailResponseItem?>(null)
     val detailsItem = _detailsItem.asStateFlow()
 
     fun getTrails() {
-        Log.d(TAG, "getTrails()")
         val parksApi = ApiHelper.getInstance().create(ApiInterface::class.java)
         viewModelScope.launch {
             _state.value = State.Loading
             val response = parksApi.getParks()
-            Log.d(TAG, "response code: ${response.code()}")
             withContext(Dispatchers.Default) {
                 try {
                     if(response.isSuccessful) {
-                        Log.d(TAG, "success!")
                         _state.value = State.Success
 
                         //set primary key
@@ -107,7 +100,7 @@ class MainViewModel : ViewModel() {
                 trailItem.isFavorite = true
                 _detailsItem.value = trailItem
                 r.copyToRealmOrUpdate(trailItem)
-                Log.d(TAG, "Favorite trail: ${trailItem.parkName}")
+
                 _trails.value.find { it.primaryKey == trailItem.primaryKey }?.apply {
                     isFavorite = true
                 }
@@ -126,8 +119,6 @@ class MainViewModel : ViewModel() {
                     }
                 }
 
-                Log.d(TAG, "isFavorite = ${detailsItem.value?.isFavorite}")
-
                 true
             }
         }
@@ -140,8 +131,10 @@ class MainViewModel : ViewModel() {
         viewModelScope.launch {
             realm.executeTransaction { r ->
                 trailItem.isFavorite = false
-                _detailsItem.value = trailItem
+//                _detailsItem.value = trailItem
+
                 realm.where(TrailResponseItem::class.java).equalTo("primaryKey", trailItem.primaryKey)?.findAll()?.deleteAllFromRealm()
+
                 _trails.value.find { it.primaryKey == primaryKey }?.apply {
                     isFavorite = false
                 }
@@ -161,7 +154,7 @@ class MainViewModel : ViewModel() {
                     }
                 }
 
-                Log.d(TAG, "isFavorite = ${detailsItem.value?.isFavorite}")
+                _detailsItem.value = trails.value.find { it.primaryKey == primaryKey }
 
                 true
             }
@@ -196,26 +189,6 @@ class MainViewModel : ViewModel() {
 
     fun clearDetailsItem() {
         _detailsItem.value = null
-    }
-
-    fun toggleDetailsFavorite() {
-        Log.d(TAG, "isFavorite = ${detailsItem.value?.isFavorite}")
-        if(_detailsItem.value?.isFavorite == true) {
-            _detailsItem.update {
-                it?.apply {
-                    isFavorite = false
-                }
-            }
-//            _detailsItem.value?.isFavorite = false
-        } else {
-            _detailsItem.update {
-                it?.apply {
-                    isFavorite = true
-                }
-            }
-//            _detailsItem.value?.isFavorite = true
-        }
-        Log.d(TAG, "isFavorite = ${detailsItem.value?.isFavorite}")
     }
 }
 

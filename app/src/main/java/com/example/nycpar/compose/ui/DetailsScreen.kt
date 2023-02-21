@@ -133,7 +133,6 @@ fun DetailsScreen(
                         modifier = Modifier
                             .size(dimensionResource(id = R.dimen.details_fave_size).value.dp)
                             .clickable(onClick = {
-//                                viewModel.toggleDetailsFavorite()
                                 if (trailItem.isFavorite) {
                                     viewModel.removeTrailFromFavorites(trail)
                                 } else {
