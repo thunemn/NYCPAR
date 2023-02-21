@@ -176,6 +176,10 @@ class MainViewModel : ViewModel() {
         val trail: TrailResponseItem? = realm.where(TrailResponseItem::class.java).equalTo("primaryKey", primaryKey).findFirst()
         return trail?.isFavorite ?: false
     }
+
+    fun getTrailDetails(primaryKey: String): TrailResponseItem? {
+        return realm.where(TrailResponseItem::class.java).equalTo("primaryKey", primaryKey).findFirst()
+    }
 }
 
 sealed class State {

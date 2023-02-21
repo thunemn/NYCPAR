@@ -1,6 +1,5 @@
 package com.example.nycpar.compose.ui.components
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -29,6 +28,7 @@ import com.example.nycpar.ui.theme.Accent
 import com.example.nycpar.ui.theme.BackgroundLight
 import com.example.nycpar.ui.theme.Black
 import com.example.nycpar.ui.theme.White
+import com.example.nycpar.utils.Utils
 import com.example.nycpar.viewmodels.MainViewModel
 
 @Composable
@@ -71,10 +71,12 @@ fun TrailsList(
                                 .padding(dimensionResource(id = R.dimen.trail_item_padding))
                                 .weight(9f)
                                 .clickable {
-                                    navigateToDetails(trailName)
+                                    trail.primaryKey?.let { primaryKey ->
+                                        navigateToDetails(primaryKey)
+                                    }
                                 },
                         ) {
-                            //trail name
+                            //trail name (park name)
                             Text(
                                 text = "$trailName (${trail.parkName})",
                                 color = Black,
@@ -82,10 +84,10 @@ fun TrailsList(
                                 textAlign = TextAlign.Start,
                                 maxLines = 1
                             )
-                            //surface/difficulty
+                            //surface/topography
                             Text(
                                 modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.trail_item_text_padding).value.dp),
-                                text = "Surface: ${trail.surface}, ${trail.topog}",
+                                text = Utils.getSurfaceTopogText(trail),
                                 color = Black,
                                 style = MaterialTheme.typography.body2,
                                 textAlign = TextAlign.Start,

@@ -21,7 +21,6 @@ val PatuaOneFontFamily = FontFamily(
     Font(R.font.patuaone_regular, FontWeight.Normal)
 )
 
-// Set of Material typography styles to start with
 val Typography = Typography(
     defaultFontFamily = LatoFontFamily,
 
@@ -36,8 +35,6 @@ val Typography = Typography(
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp
     ),
-
-
 
     /* Other default text styles to override
     button = TextStyle(

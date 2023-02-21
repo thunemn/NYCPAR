@@ -10,7 +10,7 @@ open class TrailResponseItem : RealmObject() {
     @SerializedName("width_ft")
     var widthFT: String? = null
     @SerializedName("class")
-    var parkClass: String? = null
+    var trailClass: String? = null
     @SerializedName("surface")
     var surface: String? = null
     @SerializedName("gen_topog")

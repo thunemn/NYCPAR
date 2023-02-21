@@ -12,6 +12,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.nycpar.compose.NavigationHost
+import com.example.nycpar.compose.navigation.NavigationConstants
 import com.example.nycpar.compose.ui.components.DrawerContent
 import com.example.nycpar.compose.ui.components.NYCTopAppBar
 import com.example.nycpar.compose.ui.components.StatusBar
@@ -37,10 +38,13 @@ fun HomeScreen(
 
     val navController = rememberNavController()
     val showTopBar = when (currentRoute(navController = navController)) {
-        "trails" -> true
-        "favorite" -> true
+        NavigationConstants.TRAILS_ROUTE -> true
+        NavigationConstants.FAVORITE_ROUTE -> true
+        NavigationConstants.DETAILS_ROUTE -> true
         else -> false
     }
+    
+    Log.d(TAG, "currentRoute = ${currentRoute(navController = navController)}")
 
     Realm.init(context)
     Realm.setDefaultConfiguration(
@@ -116,7 +120,7 @@ fun HomeScreen(
 }
 
 @Composable
-public fun currentRoute(navController: NavHostController): String? {
+fun currentRoute(navController: NavHostController): String? {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     return navBackStackEntry?.destination?.route
 }

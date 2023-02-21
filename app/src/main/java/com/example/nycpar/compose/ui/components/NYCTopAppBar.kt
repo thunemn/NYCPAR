@@ -42,16 +42,6 @@ fun NYCTopAppBar(
                         }
                     })
             )
-        },
-        actions = {
-            if(currentScreen == "details") {
-                IconButton(
-                    onClick = {
-                        onFavoriteClick(0)
-                    }) {
-                    Icon(Icons.Default.FavoriteBorder, stringResource(id = R.string.favorite))
-                }
-            }
         }
     )
 }

@@ -2,6 +2,8 @@ todo
 --------
 then do details			
 filter?
+fix topappbar text capitalization
+make new app logo
 
 future
 --------
@@ -14,6 +16,3 @@ add settings
 some way to monetize the app
 dark mode
 landscape
-
-
-1.7.0-SNAPSHOT

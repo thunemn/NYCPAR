@@ -18,5 +18,7 @@
     <dimen name="progress_spinner_size">64dp</dimen>
     <dimen name="progress_spinner_width">4dp</dimen>
 
+    <dimen name="details_padding">16dp</dimen>
+    <dimen name="details_corners">16dp</dimen>
 
 </resources>
