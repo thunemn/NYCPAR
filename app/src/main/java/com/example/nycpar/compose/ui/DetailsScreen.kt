@@ -54,7 +54,10 @@ fun DetailsScreen(
                     .background(White)
                     .padding(dimensionResource(id = R.dimen.details_padding).value.dp)
             ) {
-                Column {
+                Column(
+                    modifier = Modifier
+                        .weight(8.5f)
+                ) {
                     //trail name (park name)
                     Text(
                         text = "${trail.trailName} (${trail.parkName})",
@@ -73,7 +76,7 @@ fun DetailsScreen(
                     //difficulty
                     Text(
                         modifier = Modifier.padding(vertical = dimensionResource(id = com.example.nycpar.R.dimen.trail_item_text_padding).value.dp),
-                        text = "asdjfklasjdf ajklsdf jakf ajlkdsf jakf ajsdf aksjf ajd fjas fkljaskd fjklds fjaskldf",
+                        text = Utils.getDifficultyText(trail),
                         color = Black,
                         style = MaterialTheme.typography.body2,
                         textAlign = TextAlign.Start,
@@ -104,10 +107,11 @@ fun DetailsScreen(
                     )
                 }
 
+                Spacer(modifier = Modifier.weight(0.5f))
+
                 Column(
                     modifier = Modifier
-                        .weight(1f),
-                    verticalArrangement = Arrangement.Center,
+                        .weight(1.0f)
                 ) {
                     //favorite icon
                     Icon(
@@ -115,7 +119,7 @@ fun DetailsScreen(
                         tint = Accent,
                         contentDescription = stringResource(id = R.string.favorite),
                         modifier = Modifier
-                            .padding(horizontal = dimensionResource(id = R.dimen.trail_item_icon_padding).value.dp)
+                            .size(dimensionResource(id = R.dimen.details_fave_size).value.dp)
                             .clickable(onClick = {
                                 if (trail.isFavorite) {
                                     viewModel.removeTrailFromFavorites(trail)
