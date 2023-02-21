@@ -13,19 +13,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.nycpar.R
 import com.example.nycpar.ui.theme.PatuaOneFontFamily
+import com.example.nycpar.utils.TextUtils
 import kotlinx.coroutines.launch
 
 @Composable
 fun NYCTopAppBar(
     currentScreen: String,
-    scaffoldState: ScaffoldState,
-    onFavoriteClick: (Int) -> Unit
+    scaffoldState: ScaffoldState
 ) {
     val scope = rememberCoroutineScope()
 
     TopAppBar(
         title = { Text(
-            text = currentScreen,
+            text = TextUtils.capitalizeFirstLetter(currentScreen),
             fontFamily = PatuaOneFontFamily
         ) },
         navigationIcon = {

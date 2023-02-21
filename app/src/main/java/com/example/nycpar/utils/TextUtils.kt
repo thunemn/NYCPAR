@@ -2,7 +2,7 @@ package com.example.nycpar.utils
 
 import com.example.nycpar.api.TrailResponseItem
 
-object Utils {
+object TextUtils {
 
     fun getSurfaceTopogText(trail: TrailResponseItem): String {
         return if(trail.surface.isNullOrEmpty() && trail.topog.isNullOrEmpty()) {
@@ -42,5 +42,9 @@ object Utils {
         } else {
             "Trail Markers: ${trail.trailMarkersInstalled}"
         }
+    }
+
+    fun capitalizeFirstLetter(text: String): String {
+        return text.substring(0, 1).uppercase() + text.substring(1).lowercase()
     }
 }

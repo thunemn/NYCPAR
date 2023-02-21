@@ -1,6 +1,5 @@
 package com.example.nycpar.compose.ui.components
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -25,12 +24,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.nycpar.R
 import com.example.nycpar.api.TrailResponseItem
-import com.example.nycpar.compose.ui.TAG
 import com.example.nycpar.ui.theme.Accent
 import com.example.nycpar.ui.theme.BackgroundLight
 import com.example.nycpar.ui.theme.Black
 import com.example.nycpar.ui.theme.White
-import com.example.nycpar.utils.Utils
+import com.example.nycpar.utils.TextUtils
 import com.example.nycpar.viewmodels.MainViewModel
 
 @Composable
@@ -90,7 +88,7 @@ fun TrailsList(
                             //surface/topography
                             Text(
                                 modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.trail_item_text_padding).value.dp),
-                                text = Utils.getSurfaceTopogText(trail),
+                                text = TextUtils.getSurfaceTopogText(trail),
                                 color = Black,
                                 style = MaterialTheme.typography.body2,
                                 textAlign = TextAlign.Start,

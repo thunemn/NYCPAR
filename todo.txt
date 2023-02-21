@@ -1,7 +1,5 @@
 todo
 --------
-then do details			
-filter?
 fix topappbar text capitalization
 make new app logo
 

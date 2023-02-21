@@ -27,7 +27,7 @@ import com.example.nycpar.R
 import com.example.nycpar.api.TrailResponseItem
 import com.example.nycpar.models.Screens
 import com.example.nycpar.ui.theme.*
-import com.example.nycpar.utils.Utils
+import com.example.nycpar.utils.TextUtils
 import com.example.nycpar.viewmodels.MainViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -80,7 +80,7 @@ fun DetailsScreen(
                     //surface/topography
                     Text(
                         modifier = Modifier.padding(vertical = dimensionResource(id = com.example.nycpar.R.dimen.trail_item_text_padding).value.dp),
-                        text = Utils.getSurfaceTopogText(trail),
+                        text = TextUtils.getSurfaceTopogText(trail),
                         color = Black,
                         style = MaterialTheme.typography.body2,
                         textAlign = TextAlign.Start,
@@ -88,7 +88,7 @@ fun DetailsScreen(
                     //difficulty
                     Text(
                         modifier = Modifier.padding(vertical = dimensionResource(id = com.example.nycpar.R.dimen.trail_item_text_padding).value.dp),
-                        text = Utils.getDifficultyText(trail),
+                        text = TextUtils.getDifficultyText(trail),
                         color = Black,
                         style = MaterialTheme.typography.body2,
                         textAlign = TextAlign.Start,
@@ -96,7 +96,7 @@ fun DetailsScreen(
                     //width
                     Text(
                         modifier = Modifier.padding(vertical = dimensionResource(id = com.example.nycpar.R.dimen.trail_item_text_padding).value.dp),
-                        text = Utils.getWidthText(trail),
+                        text = TextUtils.getWidthText(trail),
                         color = Black,
                         style = MaterialTheme.typography.body2,
                         textAlign = TextAlign.Start,
@@ -104,7 +104,7 @@ fun DetailsScreen(
                     //class
                     Text(
                         modifier = Modifier.padding(vertical = dimensionResource(id = com.example.nycpar.R.dimen.trail_item_text_padding).value.dp),
-                        text = Utils.getClassText(trail),
+                        text = TextUtils.getClassText(trail),
                         color = Black,
                         style = MaterialTheme.typography.body2,
                         textAlign = TextAlign.Start,
@@ -112,7 +112,7 @@ fun DetailsScreen(
                     //trail markers
                     Text(
                         modifier = Modifier.padding(vertical = dimensionResource(id = com.example.nycpar.R.dimen.trail_item_text_padding).value.dp),
-                        text = Utils.getTrailMarkersText(trail),
+                        text = TextUtils.getTrailMarkersText(trail),
                         color = Black,
                         style = MaterialTheme.typography.body2,
                         textAlign = TextAlign.Start,

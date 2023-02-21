@@ -85,10 +85,8 @@ fun HomeScreen(
             if(showTopBar) {
                 NYCTopAppBar(
                     currentScreen,
-                    scaffoldState,
-                    onFavoriteClick = {
-
-                    })
+                    scaffoldState
+                )
             }
         },
         drawerContent = {
