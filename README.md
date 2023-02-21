@@ -7,5 +7,4 @@ Future Implementations: To improve upon the NYCPAR app in the future, the follow
 - Share a trail
 - More categories (for example, Beaches were available as a static json file but did not satisfy the requirement for client/server demonstration)
 - Dark mode
-- Landscape/Tablet
 - Monetization strategy (ads, promoted content, etc)
