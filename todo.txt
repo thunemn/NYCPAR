@@ -1,6 +1,5 @@
 todo
 --------
-fix topappbar text capitalization
 make new app logo
 
 future
