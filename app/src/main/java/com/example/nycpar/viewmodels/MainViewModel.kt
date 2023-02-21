@@ -54,6 +54,9 @@ class MainViewModel : ViewModel() {
         _isSnackBarShowing.value = false
     }
 
+    private val _detailsItem = MutableStateFlow<TrailResponseItem?>(null)
+    val detailsItem = _detailsItem.asStateFlow()
+
     fun getTrails() {
         Log.d(TAG, "getTrails()")
         val parksApi = ApiHelper.getInstance().create(ApiInterface::class.java)
@@ -102,6 +105,7 @@ class MainViewModel : ViewModel() {
         viewModelScope.launch {
             realm.executeTransaction { r ->
                 trailItem.isFavorite = true
+                _detailsItem.value = trailItem
                 r.copyToRealmOrUpdate(trailItem)
                 Log.d(TAG, "Favorite trail: ${trailItem.parkName}")
                 _trails.value.find { it.primaryKey == trailItem.primaryKey }?.apply {
@@ -122,6 +126,8 @@ class MainViewModel : ViewModel() {
                     }
                 }
 
+                Log.d(TAG, "isFavorite = ${detailsItem.value?.isFavorite}")
+
                 true
             }
         }
@@ -134,6 +140,7 @@ class MainViewModel : ViewModel() {
         viewModelScope.launch {
             realm.executeTransaction { r ->
                 trailItem.isFavorite = false
+                _detailsItem.value = trailItem
                 realm.where(TrailResponseItem::class.java).equalTo("primaryKey", trailItem.primaryKey)?.findAll()?.deleteAllFromRealm()
                 _trails.value.find { it.primaryKey == primaryKey }?.apply {
                     isFavorite = false
@@ -153,6 +160,8 @@ class MainViewModel : ViewModel() {
                         addAll(getFavoriteTrails())
                     }
                 }
+
+                Log.d(TAG, "isFavorite = ${detailsItem.value?.isFavorite}")
 
                 true
             }
@@ -179,6 +188,34 @@ class MainViewModel : ViewModel() {
 
     fun getTrailDetails(primaryKey: String): TrailResponseItem? {
         return realm.where(TrailResponseItem::class.java).equalTo("primaryKey", primaryKey).findFirst()
+    }
+
+    fun setDetailsItem(item: TrailResponseItem) {
+        _detailsItem.value = item
+    }
+
+    fun clearDetailsItem() {
+        _detailsItem.value = null
+    }
+
+    fun toggleDetailsFavorite() {
+        Log.d(TAG, "isFavorite = ${detailsItem.value?.isFavorite}")
+        if(_detailsItem.value?.isFavorite == true) {
+            _detailsItem.update {
+                it?.apply {
+                    isFavorite = false
+                }
+            }
+//            _detailsItem.value?.isFavorite = false
+        } else {
+            _detailsItem.update {
+                it?.apply {
+                    isFavorite = true
+                }
+            }
+//            _detailsItem.value?.isFavorite = true
+        }
+        Log.d(TAG, "isFavorite = ${detailsItem.value?.isFavorite}")
     }
 }
 

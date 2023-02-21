@@ -11,13 +11,17 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.nycpar.R
 import com.example.nycpar.api.TrailResponseItem
@@ -35,8 +39,16 @@ fun DetailsScreen(
 ) {
     viewModel.updateCurrentScreen(Screens.DETAILS)
 
-    val trailItem: TrailResponseItem? = viewModel.getTrailDetails(primaryKey)
+    val trailItem: TrailResponseItem? = viewModel.detailsItem.collectAsState().value
     Log.d(TAG, "trail details: $trailItem")
+
+    val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
+
+    DisposableEffect(lifecycleOwner) {
+        onDispose {
+            viewModel.clearDetailsItem()
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -115,16 +127,16 @@ fun DetailsScreen(
                 ) {
                     //favorite icon
                     Icon(
-                        imageVector = if(trail.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                        imageVector = if(trailItem.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                         tint = Accent,
                         contentDescription = stringResource(id = R.string.favorite),
                         modifier = Modifier
                             .size(dimensionResource(id = R.dimen.details_fave_size).value.dp)
                             .clickable(onClick = {
-                                if (trail.isFavorite) {
+//                                viewModel.toggleDetailsFavorite()
+                                if (trailItem.isFavorite) {
                                     viewModel.removeTrailFromFavorites(trail)
                                 } else {
-                                    //toggle favorite icon
                                     viewModel.addTrailToFavorites(trail)
                                 }
                             })

@@ -1,5 +1,6 @@
 package com.example.nycpar.compose.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -24,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.nycpar.R
 import com.example.nycpar.api.TrailResponseItem
+import com.example.nycpar.compose.ui.TAG
 import com.example.nycpar.ui.theme.Accent
 import com.example.nycpar.ui.theme.BackgroundLight
 import com.example.nycpar.ui.theme.Black
@@ -72,6 +74,7 @@ fun TrailsList(
                                 .weight(9f)
                                 .clickable {
                                     trail.primaryKey?.let { primaryKey ->
+                                        viewModel.setDetailsItem(trail)
                                         navigateToDetails(primaryKey)
                                     }
                                 },
