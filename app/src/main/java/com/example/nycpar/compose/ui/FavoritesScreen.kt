@@ -48,9 +48,7 @@ fun FavoritesScreen(
 ) {
     viewModel.updateCurrentScreen(Screens.FAVORITES)
 
-    val trails: List<TrailResponseItem> = viewModel.faves.collectAsState().value.apply {
-        sortedWith(compareBy({ it.trailName }, { it.parkName }))
-    }
+    val trails: List<TrailResponseItem> = viewModel.faves.collectAsState().value
 
     Box(
         modifier = Modifier

@@ -38,6 +38,8 @@ class MainViewModel : ViewModel() {
     private val _state = MutableStateFlow<State>(State.Loading)
     val state = _state.asStateFlow()
 
+    var allTrails: List<TrailResponseItem>? = listOf()
+
     private val _trails = MutableStateFlow<List<TrailResponseItem>>(listOf())
     val trails = _trails.asStateFlow()
 
@@ -71,7 +73,7 @@ class MainViewModel : ViewModel() {
                         _state.value = State.Success
 
                         //set primary key
-                        var allTrails = response.body()?.apply {
+                        allTrails = response.body()?.apply {
                             forEach { item ->
                                 item.trailName?.let {
                                     item.primaryKey = "${item.trailName}/${item.parkName}"
@@ -101,74 +103,60 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    fun addTrailToFavorites(trailItem: TrailResponseItem): Boolean {
+    fun addTrailToFavorites(trailItem: TrailResponseItem) {
         val primaryKey = trailItem.primaryKey
 
         viewModelScope.launch {
             realm.executeTransaction { r ->
                 trailItem.isFavorite = true
                 r.copyToRealmOrUpdate(trailItem)
+            }
+            allTrails?.find { it.primaryKey == primaryKey }?.isFavorite = true
 
-                _trails.value.find { it.primaryKey == trailItem.primaryKey }?.apply {
-                    isFavorite = true
+            allTrails?.let { all ->
+                _trails.value = _trails.value.map {
+                    if(it.primaryKey == primaryKey) all.find { it.primaryKey == primaryKey } ?: it else it
                 }
-
-                //force MutableStateFlow to emit change
-                _trails.update {
-                    _trails.value.toMutableList().apply {
-                        remove(trailItem)
-                        add(trailItem)
-                    }
+            }
+            _faves.update {
+                _faves.value.toMutableList().apply {
+                    add(trailItem)
+                    sortedWith(compareBy({ it.trailName }, { it.parkName }))
                 }
-
-                _faves.update {
-                    _faves.value.toMutableList().apply {
-                        add(trailItem)
-                    }
-                }
-
-                _detailsItem.value = trails.value.find { it.primaryKey == primaryKey }
-
-                true
             }
         }
-        return false
+
+        _detailsItem.value = trails.value.find { it.primaryKey == primaryKey }
     }
 
-    fun removeTrailFromFavorites(trailItem: TrailResponseItem): Boolean {
+    fun removeTrailFromFavorites(trailItem: TrailResponseItem) {
         val primaryKey = trailItem.primaryKey
+        var itemToRemove: TrailResponseItem? = null
 
         viewModelScope.launch {
             realm.executeTransaction { r ->
                 trailItem.isFavorite = false
+                val results = realm.where(TrailResponseItem::class.java).equalTo("primaryKey", primaryKey)?.findFirst()
+                itemToRemove = realm.copyFromRealm(results)
+                results?.deleteFromRealm()
+            }
+            allTrails?.find { it.primaryKey == primaryKey }?.isFavorite = false
 
-                realm.where(TrailResponseItem::class.java).equalTo("primaryKey", trailItem.primaryKey)?.findAll()?.deleteAllFromRealm()
-
-                _trails.value.find { it.primaryKey == primaryKey }?.apply {
-                    isFavorite = false
+            allTrails?.let { all ->
+                _trails.value = _trails.value.map {
+                    if(it.primaryKey == primaryKey) all.find { it.primaryKey == primaryKey } ?: it else it
                 }
+            }
 
-                //force MutableStateFlow to emit change
-                _trails.update {
-                    _trails.value.toMutableList().apply {
-                        remove(trailItem)
-                        add(trailItem)
-                    }
+            _faves.update {
+                _faves.value.toMutableList().apply {
+                    removeIf {it.primaryKey == primaryKey}
+                    sortedWith(compareBy({ it.trailName }, { it.parkName }))
                 }
-
-                _faves.update {
-                    _faves.value.toMutableList().apply {
-                        clear()
-                        addAll(getFavoriteTrails())
-                    }
-                }
-
-                _detailsItem.value = trails.value.find { it.primaryKey == primaryKey }
-
-                true
             }
         }
-        return false
+
+        _detailsItem.value = trails.value.find { it.primaryKey == primaryKey }
     }
 
     fun loadFavorites() {
